@@ -39,11 +39,13 @@ namespace PeliculasApi.Controllers
         [HttpGet("{id}", Name = "obtenerActor")]
         public async Task<ActionResult<ActorDTO>> Get(int id)
         {
-            //var entidad = await context.Actores.FirstOrDefaultAsync(x => x.Id == id);
-            //if(entidad == null) { return NotFound(); }
-            //return mapper.Map<ActorDTO>(entidad);
+            var entidad = await context.Actores.FirstOrDefaultAsync(x => x.Id == id);
+            if (entidad == null) { return NotFound(); }
+            var entidadDTO = mapper.Map<ActorDTO>(entidad);
+            entidadDTO.FechaFormateada = entidadDTO.FechaNacimiento.ToShortDateString();
+            return entidadDTO;
 
-            return await Get<Actor, ActorDTO>(id);
+            //return await Get<Actor, ActorDTO>(id);
         }
 
         [HttpPost]
@@ -86,7 +88,7 @@ namespace PeliculasApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromForm] ActorCreacionDTO actorCreacionDTO)
+        public async Task<ActionResult> Put(int id, [FromBody] ActorCreacionDTO actorCreacionDTO)
         {
             var actorDB = await context.Actores.FirstOrDefaultAsync(x => x.Id == id);
             if (actorDB == null) { return NotFound(); }

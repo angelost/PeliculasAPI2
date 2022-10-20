@@ -9,6 +9,8 @@ namespace PeliculasApi.DTOs
         [StringLength(100)]
         public string Nombre { get; set; }
         public DateTime FechaNacimiento { get; set; }
+        public string FechaFormateada { get; set; }
         public string Foto { get; set; }
+
     }
 }
